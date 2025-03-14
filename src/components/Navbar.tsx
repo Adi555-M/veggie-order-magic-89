@@ -5,6 +5,7 @@ import { Menu, X, ShoppingCart } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { getCart } from '@/utils/localStorage';
 import { Badge } from "@/components/ui/badge";
+import UserDetails from './UserDetails';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,7 +55,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <NavLink to="/" className="flex items-center space-x-2">
             <div className="text-veggie-700 font-bold text-xl md:text-2xl transition-all duration-300 hover:text-veggie-600">
-              Veggie Express
+              Fresh vegetables By Parshv Food's
             </div>
           </NavLink>
           
@@ -75,8 +76,10 @@ const Navbar = () => {
             ))}
           </div>
           
-          {/* Cart Button */}
+          {/* Cart Button and User Details */}
           <div className="flex items-center">
+            <UserDetails />
+            
             <NavLink to="/cart" className="relative p-2 mr-2">
               <ShoppingCart className="h-6 w-6 text-gray-700 hover:text-veggie-600 transition-colors" />
               {cartItemCount > 0 && (

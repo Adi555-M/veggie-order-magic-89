@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import VegetableCard from '@/components/VegetableCard';
 import CategoryFilter from '@/components/CategoryFilter';
-import { vegetables, categories } from '@/data/vegetables';
+import { availableVegetables, categories } from '@/data/vegetables';
 import { ShoppingCart } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
@@ -12,15 +12,15 @@ import { getCart } from '@/utils/localStorage';
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState('All');
-  const [filteredVegetables, setFilteredVegetables] = useState(vegetables);
+  const [filteredVegetables, setFilteredVegetables] = useState(availableVegetables);
   const [cartCount, setCartCount] = useState(0);
   
   // Apply category filter
   useEffect(() => {
     if (activeCategory === 'All') {
-      setFilteredVegetables(vegetables);
+      setFilteredVegetables(availableVegetables);
     } else {
-      setFilteredVegetables(vegetables.filter(veg => veg.category === activeCategory));
+      setFilteredVegetables(availableVegetables.filter(veg => veg.category === activeCategory));
     }
   }, [activeCategory]);
   
@@ -74,7 +74,7 @@ const Index = () => {
       </div>
       
       {/* Vegetables Section */}
-      <section id="vegetables" className="py-12 md:py-16">
+      <section id="vegetables" className="py-12 md:py-16 bg-gradient-to-b from-white to-veggie-50/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-800">Fresh Vegetables</h2>
@@ -94,6 +94,19 @@ const Index = () => {
               <VegetableCard key={vegetable.id} vegetable={vegetable} />
             ))}
           </div>
+
+          {filteredVegetables.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500">No vegetables found in this category. Please check back later.</p>
+              <Button 
+                variant="outline" 
+                className="mt-4" 
+                onClick={() => setActiveCategory('All')}
+              >
+                View All Vegetables
+              </Button>
+            </div>
+          )}
         </div>
       </section>
       

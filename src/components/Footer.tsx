@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-gray-800">Veggie Express</h3>
+            <h3 className="text-xl font-semibold text-gray-800">Fresh vegetables By Parshv Food's</h3>
             <p className="text-sm text-gray-600">
               Fresh vegetables delivered straight to your doorstep. Quality produce at affordable prices.
             </p>
@@ -49,7 +49,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start">
                 <Mail className="h-5 w-5 text-veggie-600 mr-2 mt-0.5" />
-                <span className="text-sm text-gray-600">info@veggieexpress.com</span>
+                <span className="text-sm text-gray-600">info@parshvfoods.com</span>
               </li>
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 text-veggie-600 mr-2 mt-0.5" />
@@ -81,7 +81,7 @@ const Footer = () => {
         
         <div className="border-t border-gray-200 mt-8 pt-6">
           <p className="text-sm text-center text-gray-500">
-            © {new Date().getFullYear()} Veggie Express. All rights reserved.
+            © {new Date().getFullYear()} Fresh vegetables By Parshv Food's. All rights reserved.
           </p>
         </div>
       </div>

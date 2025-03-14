@@ -11,13 +11,13 @@ const About = () => {
         <div className="container mx-auto px-4 py-12 md:py-16 animate-fade-in">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-10">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">About Veggie Express</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">About Fresh vegetables By Parshv Food's</h1>
               <p className="text-lg text-gray-600">Your trusted partner for fresh vegetables delivery</p>
             </div>
             
             <div className="prose prose-lg max-w-none">
               <p>
-                Veggie Express was born from a simple idea: to make fresh, quality vegetables accessible to everyone without the hassle of going to the market. We understand that in today's busy world, finding time to shop for groceries can be challenging. That's why we bring the market to your doorstep!
+                Fresh vegetables By Parshv Food's was born from a simple idea: to make fresh, quality vegetables accessible to everyone without the hassle of going to the market. We understand that in today's busy world, finding time to shop for groceries can be challenging. That's why we bring the market to your doorstep!
               </p>
               
               <h2 className="text-2xl font-semibold mt-8 mb-4">Our Mission</h2>
@@ -58,10 +58,10 @@ const About = () => {
               
               <h2 className="text-2xl font-semibold mt-8 mb-4">Join Our Community</h2>
               <p>
-                When you order from Veggie Express, you're not just a customer—you're part of our community. We're committed to providing not just vegetables, but an experience that makes healthy eating more accessible and enjoyable.
+                When you order from Fresh vegetables By Parshv Food's, you're not just a customer—you're part of our community. We're committed to providing not just vegetables, but an experience that makes healthy eating more accessible and enjoyable.
               </p>
               <p>
-                Thank you for choosing Veggie Express. We look forward to serving you with the freshest vegetables and the best service possible!
+                Thank you for choosing Fresh vegetables By Parshv Food's. We look forward to serving you with the freshest vegetables and the best service possible!
               </p>
             </div>
           </div>
