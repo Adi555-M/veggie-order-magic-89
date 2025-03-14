@@ -1,7 +1,8 @@
 
 import { useState } from 'react';
-import { Plus, Minus, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { CartItem as CartItemType, getCart, saveCart } from '@/utils/localStorage';
 
 interface CartItemProps {
@@ -11,9 +12,21 @@ interface CartItemProps {
 
 const CartItem = ({ item, onUpdate }: CartItemProps) => {
   const [isUpdating, setIsUpdating] = useState(false);
+  const [quantity, setQuantity] = useState(item.quantity);
   
-  // Update item quantity
-  const updateQuantity = (amount: number) => {
+  // Handle quantity change
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuantity = parseFloat(e.target.value);
+    
+    if (isNaN(newQuantity) || newQuantity < 0) return;
+    if (newQuantity > 10) return; // Maximum 10 kg/pieces
+    
+    setQuantity(newQuantity);
+    updateCartQuantity(newQuantity);
+  };
+  
+  // Update item quantity in cart
+  const updateCartQuantity = (newQuantity: number) => {
     setIsUpdating(true);
     
     // Get current cart
@@ -23,19 +36,10 @@ const CartItem = ({ item, onUpdate }: CartItemProps) => {
     const itemIndex = currentCart.findIndex(cartItem => cartItem.id === item.id);
     
     if (itemIndex !== -1) {
-      // Calculate new quantity
-      const newQuantity = currentCart[itemIndex].quantity + amount;
-      
       // Min quantity check (remove if less than 0.1)
       if (newQuantity < 0.1) {
         currentCart.splice(itemIndex, 1);
       } else {
-        // Max quantity check (10 units max)
-        if (newQuantity > 10) {
-          setIsUpdating(false);
-          return;
-        }
-        
         // Update quantity and recalculate price
         currentCart[itemIndex].quantity = newQuantity;
         currentCart[itemIndex].totalPrice = newQuantity * currentCart[itemIndex].price;
@@ -88,30 +92,22 @@ const CartItem = ({ item, onUpdate }: CartItemProps) => {
         </div>
         
         <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center border rounded">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-7 w-7 rounded-full" 
-              onClick={() => updateQuantity(-0.1)}
-              disabled={isUpdating}
-            >
-              <Minus className="h-3 w-3" />
-            </Button>
-            
-            <span className="mx-2 text-sm font-medium">
-              {item.quantity.toFixed(1)} {item.unit}
-            </span>
-            
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-7 w-7 rounded-full" 
-              onClick={() => updateQuantity(0.1)}
-              disabled={isUpdating}
-            >
-              <Plus className="h-3 w-3" />
-            </Button>
+          <div className="flex items-center">
+            <div className="relative w-24">
+              <Input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityChange}
+                className="pr-8 h-8 text-sm"
+                step={0.1}
+                min={0.1}
+                max={10}
+                disabled={isUpdating}
+              />
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">
+                {item.unit}
+              </div>
+            </div>
           </div>
           
           <div className="flex items-center space-x-4">

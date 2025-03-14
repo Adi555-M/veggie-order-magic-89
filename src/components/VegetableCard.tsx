@@ -1,8 +1,9 @@
 
-import { useState } from 'react';
-import { Plus, Minus, ShoppingCart } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ShoppingCart, Weight } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { VegetableItem } from '@/data/vegetables';
 import { CartItem, getCart, saveCart } from '@/utils/localStorage';
 import { toast } from "sonner";
@@ -16,17 +17,23 @@ const VegetableCard = ({ vegetable }: VegetableCardProps) => {
   const [unit, setUnit] = useState<'kg' | 'g' | 'piece'>(vegetable.unit);
   const [isAdding, setIsAdding] = useState(false);
   
-  // Handle quantity change
-  const handleQuantityChange = (amount: number) => {
-    const newQuantity = quantity + amount;
+  // Predefined quantity options (in grams or kg)
+  const quantityOptions = unit === 'g' 
+    ? [100, 150, 250, 500, 750, 1000] 
+    : [0.1, 0.25, 0.5, 0.75, 1, 2];
+  
+  // Handle quantity change from manual input
+  const handleQuantityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
     
-    // Minimum quantity check
-    if (newQuantity < 0.1) return;
+    if (isNaN(value)) return;
     
-    // Maximum quantity check (10 units max)
-    if (newQuantity > 10) return;
+    // Apply limits to the entered value
+    if (value < 0) return;
+    if (value > 10 && unit === 'kg') return;
+    if (value > 10000 && unit === 'g') return;
     
-    setQuantity(newQuantity);
+    setQuantity(value);
   };
   
   // Handle unit change (kg to g)
@@ -40,6 +47,11 @@ const VegetableCard = ({ vegetable }: VegetableCardProps) => {
     }
     
     setUnit(newUnit);
+  };
+  
+  // Handle predefined quantity option selection
+  const handleQuantityOptionClick = (value: number) => {
+    setQuantity(value);
   };
   
   // Calculate total price
@@ -116,36 +128,14 @@ const VegetableCard = ({ vegetable }: VegetableCardProps) => {
         <h3 className="font-medium text-lg text-gray-800 mb-1">{vegetable.name}</h3>
         <p className="text-sm text-gray-600 mb-3">{vegetable.description}</p>
         
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center border rounded p-1">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-7 w-7 rounded-full" 
-              onClick={() => handleQuantityChange(-0.1)}
-            >
-              <Minus className="h-3 w-3" />
-            </Button>
-            
-            <span className="mx-2 text-sm font-medium">{quantity.toFixed(1)}</span>
-            
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-7 w-7 rounded-full" 
-              onClick={() => handleQuantityChange(0.1)}
-            >
-              <Plus className="h-3 w-3" />
-            </Button>
-          </div>
-          
+        <div className="flex flex-col gap-3 mb-3">
           {/* Unit selector (only show for items that can be kg/g) */}
           {vegetable.unit !== 'piece' && (
             <div className="flex text-xs">
               <Button
                 variant={unit === 'kg' ? "secondary" : "outline"}
                 size="sm"
-                className="rounded-l-md rounded-r-none h-7 px-2"
+                className="rounded-l-md rounded-r-none h-7 px-2 flex-1"
                 onClick={() => handleUnitChange('kg')}
               >
                 KG
@@ -153,13 +143,46 @@ const VegetableCard = ({ vegetable }: VegetableCardProps) => {
               <Button
                 variant={unit === 'g' ? "secondary" : "outline"}
                 size="sm"
-                className="rounded-r-md rounded-l-none h-7 px-2"
+                className="rounded-r-md rounded-l-none h-7 px-2 flex-1"
                 onClick={() => handleUnitChange('g')}
               >
                 G
               </Button>
             </div>
           )}
+          
+          {/* Manual quantity input with unit indicator */}
+          <div className="flex items-center">
+            <div className="relative flex-1">
+              <Input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityInputChange}
+                className="pr-8 h-9"
+                step={unit === 'g' ? 50 : 0.1}
+                min={0}
+                max={unit === 'g' ? 10000 : 10}
+              />
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500">
+                {unit}
+              </div>
+            </div>
+          </div>
+          
+          {/* Quick quantity select buttons */}
+          <div className="grid grid-cols-3 gap-1">
+            {quantityOptions.map((option) => (
+              <Button
+                key={option}
+                variant="outline"
+                size="sm"
+                className="h-7 text-xs"
+                onClick={() => handleQuantityOptionClick(option)}
+              >
+                {option} {unit}
+              </Button>
+            ))}
+          </div>
         </div>
         
         <div className="flex justify-between items-center">
