@@ -49,11 +49,11 @@ const Footer = () => {
               </li>
               <li className="flex items-start">
                 <Mail className="h-5 w-5 text-veggie-600 mr-2 mt-0.5" />
-                <span className="text-sm text-gray-600">info@parshvfoods.com</span>
+                <span className="text-sm text-gray-600">parshvfoods@gmail.com</span>
               </li>
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 text-veggie-600 mr-2 mt-0.5" />
-                <span className="text-sm text-gray-600">123 Market Street, City, State, 123456</span>
+                <span className="text-sm text-gray-600">Sanghvi Tower, Adajan patiya, Surat</span>
               </li>
             </ul>
           </div>

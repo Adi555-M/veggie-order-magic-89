@@ -102,7 +102,7 @@ const CheckoutForm = () => {
     // Clear cart
     clearCart();
     
-    // Redirect to WhatsApp
+    // Redirect to WhatsApp with the updated phone number
     const whatsappURL = `https://wa.me/919879876030?text=${message}`;
     
     // Open WhatsApp in new tab

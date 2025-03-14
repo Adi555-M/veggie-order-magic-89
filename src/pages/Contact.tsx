@@ -150,7 +150,7 @@ const Contact = () => {
                       <Mail className="h-5 w-5 text-veggie-600 mr-4 mt-0.5" />
                       <div>
                         <h3 className="font-semibold">Email</h3>
-                        <p className="text-gray-600">info@veggieexpress.com</p>
+                        <p className="text-gray-600">parshvfoods@gmail.com</p>
                         <p className="text-sm text-gray-500 mt-1">We'll respond as soon as possible</p>
                       </div>
                     </div>
@@ -159,7 +159,7 @@ const Contact = () => {
                       <MapPin className="h-5 w-5 text-veggie-600 mr-4 mt-0.5" />
                       <div>
                         <h3 className="font-semibold">Location</h3>
-                        <p className="text-gray-600">123 Market Street, City, State 123456</p>
+                        <p className="text-gray-600">Sanghvi Tower, Adajan patiya, Surat</p>
                         <p className="text-sm text-gray-500 mt-1">Visit our store for direct pickup</p>
                       </div>
                     </div>
