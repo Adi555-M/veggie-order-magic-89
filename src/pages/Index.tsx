@@ -12,36 +12,68 @@ import { getCart } from '@/utils/localStorage';
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState('All');
-  const [filteredVegetables, setFilteredVegetables] = useState(availableVegetables);
+  const [filteredVegetables, setFilteredVegetables] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   
   // Apply category filter
   useEffect(() => {
-    if (activeCategory === 'All') {
-      setFilteredVegetables(availableVegetables);
-    } else {
-      setFilteredVegetables(availableVegetables.filter(veg => veg.category === activeCategory));
+    try {
+      if (activeCategory === 'All') {
+        setFilteredVegetables(availableVegetables);
+      } else {
+        setFilteredVegetables(availableVegetables.filter(veg => veg.category === activeCategory));
+      }
+      setIsLoading(false);
+    } catch (err) {
+      console.error("Error filtering vegetables:", err);
+      setError("Failed to filter vegetables. Please refresh the page.");
+      setIsLoading(false);
     }
   }, [activeCategory]);
   
   // Update cart count
   useEffect(() => {
-    const updateCartCount = () => {
-      const cart = getCart();
-      setCartCount(cart.length);
-    };
-    
-    updateCartCount();
-    
-    // Listen for cart updates
-    window.addEventListener('storage', updateCartCount);
-    window.addEventListener('cartUpdated', updateCartCount);
-    
-    return () => {
-      window.removeEventListener('storage', updateCartCount);
-      window.removeEventListener('cartUpdated', updateCartCount);
-    };
+    try {
+      const updateCartCount = () => {
+        const cart = getCart();
+        setCartCount(cart.length);
+      };
+      
+      updateCartCount();
+      
+      // Listen for cart updates
+      window.addEventListener('storage', updateCartCount);
+      window.addEventListener('cartUpdated', updateCartCount);
+      
+      return () => {
+        window.removeEventListener('storage', updateCartCount);
+        window.removeEventListener('cartUpdated', updateCartCount);
+      };
+    } catch (err) {
+      console.error("Error updating cart count:", err);
+      // We don't set the error state here to avoid blocking the UI
+    }
   }, []);
+  
+  // Display loading or error state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <p>Loading vegetables...</p>
+      </div>
+    );
+  }
+  
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <p className="text-red-500">{error}</p>
+        <Button onClick={() => window.location.reload()}>Refresh Page</Button>
+      </div>
+    );
+  }
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -89,13 +121,13 @@ const Index = () => {
           />
           
           {/* Vegetables grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {filteredVegetables.map((vegetable) => (
-              <VegetableCard key={vegetable.id} vegetable={vegetable} />
-            ))}
-          </div>
-
-          {filteredVegetables.length === 0 && (
+          {filteredVegetables && filteredVegetables.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {filteredVegetables.map((vegetable) => (
+                <VegetableCard key={vegetable.id} vegetable={vegetable} />
+              ))}
+            </div>
+          ) : (
             <div className="text-center py-12">
               <p className="text-gray-500">No vegetables found in this category. Please check back later.</p>
               <Button 
