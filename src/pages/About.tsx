@@ -22,22 +22,22 @@ const About = () => {
               
               <h2 className="text-2xl font-semibold mt-8 mb-4">Our Mission</h2>
               <p>
-                Our mission is to provide the freshest, highest-quality vegetables to our customers while offering exceptional service. We work directly with local farmers to ensure that our produce is not only fresh but also sustainably grown. By cutting out the middlemen, we're able to offer competitive prices while supporting local agriculture.
+                Our mission is to provide the freshest, highest-quality vegetables to our customers while offering exceptional service. We source our vegetables directly from trusted local markets, ensuring that our produce is fresh and carefully selected. By working closely with market vendors, we're able to offer competitive prices while maintaining quality.
               </p>
               
               <h2 className="text-2xl font-semibold mt-8 mb-4">Our Values</h2>
               <ul className="list-disc pl-6 space-y-2">
                 <li><strong>Quality:</strong> We never compromise on the quality of our produce. Each vegetable is carefully selected to ensure freshness and taste.</li>
                 <li><strong>Reliability:</strong> We pride ourselves on timely deliveries and accurate orders. Your time is valuable, and we respect that.</li>
-                <li><strong>Sustainability:</strong> We're committed to environmentally friendly practices, from farm to doorstep.</li>
-                <li><strong>Community:</strong> We believe in supporting local farmers and strengthening the community through good food.</li>
+                <li><strong>Convenience:</strong> We make it easy for you to order fresh vegetables from the comfort of your home.</li>
+                <li><strong>Community:</strong> We believe in supporting local markets and strengthening the community through good food.</li>
               </ul>
               
               <h2 className="text-2xl font-semibold mt-8 mb-4">Why Choose Us?</h2>
               <div className="grid md:grid-cols-2 gap-6 mt-6">
                 <div className="bg-white p-6 rounded-lg shadow-sm border">
-                  <h3 className="text-xl font-semibold mb-3 text-veggie-700">Farm Fresh</h3>
-                  <p>Our vegetables are sourced directly from farms, ensuring maximum freshness. We deliver produce that's harvested within 24 hours.</p>
+                  <h3 className="text-xl font-semibold mb-3 text-veggie-700">Market Fresh</h3>
+                  <p>Our vegetables are sourced directly from trusted local markets, ensuring freshness and quality.</p>
                 </div>
                 
                 <div className="bg-white p-6 rounded-lg shadow-sm border">
@@ -46,8 +46,8 @@ const About = () => {
                 </div>
                 
                 <div className="bg-white p-6 rounded-lg shadow-sm border">
-                  <h3 className="text-xl font-semibold mb-3 text-veggie-700">Fast Delivery</h3>
-                  <p>We guarantee same-day delivery for orders placed before noon, so you can always have fresh vegetables when you need them.</p>
+                  <h3 className="text-xl font-semibold mb-3 text-veggie-700">Flexible Delivery</h3>
+                  <p>For orders placed by 10 PM, we deliver the next day between 8 AM and 11 AM. You can place orders anytime between 6 AM and 10 PM for delivery the following day.</p>
                 </div>
                 
                 <div className="bg-white p-6 rounded-lg shadow-sm border">

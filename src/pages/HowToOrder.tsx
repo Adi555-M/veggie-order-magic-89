@@ -56,7 +56,11 @@ const HowToOrder = () => {
   const faqs = [
     {
       question: 'What are your delivery timings?',
-      answer: 'We deliver between 9:00 AM and 7:00 PM every day. You\'ll receive your order on the same day if placed before 12 PM, or the next day for later orders.'
+      answer: 'We deliver between 8:00 AM and 11:00 AM the next day for all orders placed by 10:00 PM.'
+    },
+    {
+      question: 'What are your ordering hours?',
+      answer: 'You can place orders anytime between 6:00 AM and 10:00 PM for next-day delivery.'
     },
     {
       question: 'Is there a minimum order value?',
