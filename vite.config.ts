@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  base: './', // Add this line for GitHub Pages compatibility
+  base: '/veggie-order-magic/', // Update base path to match your repository name
   plugins: [
     react(),
     mode === 'development' &&
