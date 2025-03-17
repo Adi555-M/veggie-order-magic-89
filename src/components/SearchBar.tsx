@@ -12,9 +12,17 @@ const SearchBar = ({ onSearch, placeholder = "Search vegetables..." }: SearchBar
   const [query, setQuery] = useState('');
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-    onSearch(value);
+    try {
+      const value = e.target.value;
+      setQuery(value);
+      // Check if onSearch is a function before calling it
+      if (typeof onSearch === 'function') {
+        onSearch(value);
+      }
+    } catch (error) {
+      console.error("Error in search handler:", error);
+      // Don't propagate the error to prevent app crash
+    }
   };
 
   return (

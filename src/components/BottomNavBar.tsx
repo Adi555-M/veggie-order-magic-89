@@ -1,8 +1,20 @@
 
-import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Home, ShoppingCart, User, HelpCircle, Phone } from 'lucide-react';
 
 const BottomNavBar = () => {
+  const location = useLocation();
+  const [mounted, setMounted] = useState(false);
+
+  // Use useEffect to safely handle client-side code
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Only render the component after it's mounted to prevent hydration issues
+  if (!mounted) return null;
+
   const navItems = [
     { icon: Home, path: '/', label: 'Home' },
     { icon: HelpCircle, path: '/how-to-order', label: 'How to' },
@@ -20,10 +32,10 @@ const BottomNavBar = () => {
             to={item.path}
             className={({ isActive }) => `
               flex flex-col items-center justify-center text-xs font-medium
-              ${isActive ? 'text-veggie-600' : 'text-gray-500'}
+              ${isActive || (item.path === '/' && location.pathname === '/') ? 'text-veggie-600' : 'text-gray-500'}
             `}
           >
-            <item.icon className="h-6 w-6 mb-1" />
+            {item.icon && <item.icon className="h-6 w-6 mb-1" />}
             <span>{item.label}</span>
           </NavLink>
         ))}
