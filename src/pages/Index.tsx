@@ -9,29 +9,44 @@ import { ShoppingCart } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { getCart } from '@/utils/localStorage';
+import SearchBar from '@/components/SearchBar';
+import BottomNavBar from '@/components/BottomNavBar';
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [filteredVegetables, setFilteredVegetables] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [cartCount, setCartCount] = useState(0);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Apply category filter
+  // Apply filters (category and search)
   useEffect(() => {
     try {
-      if (activeCategory === 'All') {
-        setFilteredVegetables(availableVegetables);
-      } else {
-        setFilteredVegetables(availableVegetables.filter(veg => veg.category === activeCategory));
+      let results = [...availableVegetables];
+      
+      // Apply category filter
+      if (activeCategory !== 'All') {
+        results = results.filter(veg => veg.category === activeCategory);
       }
+      
+      // Apply search filter
+      if (searchQuery.trim() !== '') {
+        const query = searchQuery.toLowerCase();
+        results = results.filter(veg => 
+          veg.name.toLowerCase().includes(query) || 
+          veg.description.toLowerCase().includes(query)
+        );
+      }
+      
+      setFilteredVegetables(results);
       setIsLoading(false);
     } catch (err) {
       console.error("Error filtering vegetables:", err);
       setError("Failed to filter vegetables. Please refresh the page.");
       setIsLoading(false);
     }
-  }, [activeCategory]);
+  }, [activeCategory, searchQuery]);
   
   // Update cart count
   useEffect(() => {
@@ -76,7 +91,7 @@ const Index = () => {
   }
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col pb-16 md:pb-0">
       <Navbar />
       
       {/* Hero Section */}
@@ -113,6 +128,9 @@ const Index = () => {
             <p className="text-gray-600 mt-2">Browse our selection of fresh, high-quality vegetables</p>
           </div>
           
+          {/* Search bar */}
+          <SearchBar onSearch={setSearchQuery} />
+          
           {/* Category filter */}
           <CategoryFilter 
             categories={categories} 
@@ -129,11 +147,14 @@ const Index = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500">No vegetables found in this category. Please check back later.</p>
+              <p className="text-gray-500">No vegetables found. Try adjusting your search or category filter.</p>
               <Button 
                 variant="outline" 
                 className="mt-4" 
-                onClick={() => setActiveCategory('All')}
+                onClick={() => {
+                  setActiveCategory('All');
+                  setSearchQuery('');
+                }}
               >
                 View All Vegetables
               </Button>
@@ -144,7 +165,7 @@ const Index = () => {
       
       {/* Fixed Cart Button (Mobile) */}
       {cartCount > 0 && (
-        <div className="fixed bottom-4 right-4 md:hidden z-20 animate-scale-in">
+        <div className="fixed bottom-20 right-4 md:hidden z-20 animate-scale-in">
           <Link to="/cart">
             <Button size="lg" className="rounded-full h-14 w-14 shadow-lg">
               <ShoppingCart className="h-6 w-6" />
@@ -155,6 +176,9 @@ const Index = () => {
           </Link>
         </div>
       )}
+      
+      {/* Bottom Navigation for Mobile */}
+      <BottomNavBar />
       
       <Footer />
     </div>
